@@ -5,11 +5,18 @@ from time import *
 # y is height
 # z is width
 
-mRadius = .75
-wallThickness = .1
-roomWidth = 50
-roomDepth = 50
-roomHeight = 50
+mRadius = float(input("enter radius of marble: "))
+wallThickness = float(input("enter wall thickness: "))
+roomWidth = float(input("enter room width: "))
+roomDepth = float(input("enter room depth: "))
+roomHeight = float(input("input room height: "))
+
+dx = float(input(
+    "enter change of speed in x axis (better if you choose between 0 and 1): "))
+dy = float(input(
+    "enter change of speed in y axis (better if you choose between 0 and 1): "))
+dz = float(input(
+    "enter change of speed in z axis (better if you choose between 0 and 1): "))
 
 floor = box(pos=vector(0, -roomHeight/2, 0), color=color.white,
             size=vector(roomWidth, wallThickness, roomDepth))
@@ -28,26 +35,38 @@ backWall = box(pos=vector(0, 0, -roomDepth/2), color=color.green,
 
 ball = sphere(radius=mRadius, color=color.red)
 
-dx = .1
-dy = .8
-dz = .6
 xPos = 0
 yPos = 0
 zPos = 0
 
 while True:
-    rate(30)
-    xPos = xPos + dx
-    yPos = yPos + dy
-    zPos = zPos + dz
+    rate(50)
 
-    if xPos > (roomWidth-mRadius)/2 or xPos < -(roomWidth-mRadius)/2:
+    xPos = xPos + dx
+    xrme = xPos + mRadius
+    xlme = xPos - mRadius
+    rwe = roomWidth/2 - wallThickness/2
+    lwe = -roomWidth/2 + wallThickness/2
+
+    yPos = yPos + dy
+    yrme = yPos + mRadius
+    ylme = yPos - mRadius
+    cwe = roomHeight/2 - wallThickness/2
+    fwe = -roomHeight/2 + wallThickness/2
+
+    zPos = zPos + dz
+    zrme = zPos + mRadius
+    zlme = zPos - mRadius
+    frwe = roomDepth/2 - wallThickness/2
+    bwe = -roomDepth/2 + wallThickness/2
+
+    if xrme >= rwe or xlme <= lwe:
         dx = dx*(-1)
 
-    if yPos > (roomHeight-mRadius)/2 or yPos < -(roomHeight-mRadius)/2:
+    if yrme >= cwe or ylme <= fwe:
         dy = dy*(-1)
 
-    if zPos > (roomDepth-mRadius)/2 or zPos < -(roomDepth-mRadius)/2:
+    if zrme >= frwe or zlme <= bwe:
         dz = dz*(-1)
 
     ball.pos = vector(xPos, yPos, zPos)
